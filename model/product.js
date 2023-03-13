@@ -1,9 +1,7 @@
-const express = require("express");
-const Product = require("../model/product");
-const router = express.Router();
+const Product = require("./productModel");
 const mongoose = require("mongoose");
 
-router.get("/", async (req, res, next) => {
+const getProduct = async (req, res, next) => {
   try {
     const products = await Product.find().select("name price _id");
 
@@ -11,9 +9,9 @@ router.get("/", async (req, res, next) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
 
-router.post("/", async (req, res, next) => {
+const postProduct = async (req, res, next) => {
   const product = new Product({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -25,9 +23,9 @@ router.post("/", async (req, res, next) => {
   } catch (error) {
     res.json({ message: error });
   }
-});
+};
 
-router.get("/:productId", async (req, res, next) => {
+const getProductById = async (req, res, next) => {
   const id = req.params.productId;
   try {
     const product = await Product.findById(id);
@@ -35,8 +33,8 @@ router.get("/:productId", async (req, res, next) => {
   } catch (error) {
     res.json({ message: error.message });
   }
-});
-router.patch("/:productId", async (req, res, next) => {
+};
+const patchOneProductById = async (req, res, next) => {
   const id = req.params.productId;
   try {
     const updated = await Product.updateOne(
@@ -47,8 +45,8 @@ router.patch("/:productId", async (req, res, next) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
-router.delete("/:productId", async (req, res, next) => {
+};
+const deleteProductById = async (req, res, next) => {
   const id = req.params.productId;
 
   try {
@@ -59,5 +57,12 @@ router.delete("/:productId", async (req, res, next) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
-module.exports = router;
+};
+
+module.exports = {
+  getProduct,
+  getProductById,
+  postProduct,
+  patchOneProductById,
+  deleteProductById,
+};

@@ -2,16 +2,14 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
 const connectDb = require("./config/dbConn");
 const cors = require("cors");
 
-const productRoutes = require("./api/routes/products");
-const orderRoutes = require("./api/routes/orders");
+const productRoutes = require("./controller/routes/productController");
+const orderRoutes = require("./controller/routes/orderController");
 
 //connect to db
 connectDb();
-
 //morgan middleware for logging
 app.use(morgan("dev"));
 
